@@ -1,0 +1,75 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 04/17/2019 10:40:15 AM
+-- Design Name: 
+-- Module Name: labombardj_CLA - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity labombardj_CLA is
+    Port (
+         A : in STD_LOGIC_VECTOR (3 downto 0); 
+         B : in STD_LOGIC_VECTOR (3 downto 0); 
+         S : out STD_LOGIC_VECTOR (3 downto 0);  
+         Cout : out STD_LOGIC);
+         
+end labombardj_CLA;
+
+architecture Behavioral of labombardj_CLA is
+    
+component labombardj_1_bit_adder
+    Port (
+        A, B, CIn : in STD_LOGIC;
+        S, P, G : out STD_LOGIC);
+end component;
+
+component labombardj_4CLB
+    Port (
+        C0 : in STD_LOGIC;
+        P3, P2, P1, P0 : in STD_LOGIC;
+        G3, G2, G1, G0 : in STD_LOGIC;
+        COut4, COut3, COut2, COut1 : out STD_LOGIC);
+end component;
+
+signal c1, c2, c3 : STD_LOGIC;
+signal P, G : STD_LOGIC_VECTOR(3 downto 0);
+
+begin
+
+BA_1 : labombardj_1_bit_adder port map (A => A(0), B => B(0), CIn => '0' , S => S(0), P => P(0), G => G(0));
+BA_2 : labombardj_1_bit_adder port map (A => A(1), B => B(1), CIn => c1, S => S(1), P => P(1), G => G(1));
+BA_3 : labombardj_1_bit_adder port map (A => A(2), B => B(2), CIn => c2, S => S(2), P => P(2), G => G(2));
+BA_4 : labombardj_1_bit_adder port map (A => A(3), B => B(3), CIn => c3, S => S(3), P => P(3), G => G(3));
+
+CLB : labombardj_4CLB port map (C0 => '0', 
+                                P3 => P(3), P2 => P(2), P1 => P(1), P0 => P(0),
+                                G3 => G(3), G2 => G(2), G1 => G(1), G0 => G(0),
+                                COut4 => COut, COut3 => c3, COut2 => c2, COut1 => c1
+                                );
+
+end Behavioral;
