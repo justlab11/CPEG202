@@ -1,0 +1,61 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 04/10/2019 10:35:30 AM
+-- Design Name: 
+-- Module Name: labombardj_dff - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity labombardj_dff is
+    Port ( D, CLK, RST : in STD_LOGIC;
+           Q : out STD_LOGIC);
+end labombardj_dff;
+
+architecture Behavioral of labombardj_dff is
+
+begin
+
+dff_process: process(CLK, D) is
+
+begin
+
+    if RST = '1' then
+        Q <= '0';
+    end if;
+    
+    if CLK'event and D = '1' and CLK = '1' then
+        Q <= '1';
+    end if;
+    
+    if CLK'event and D = '0' and CLK = '1' then
+        Q <= '0';
+    end if;
+
+end process dff_process;
+
+end Behavioral;
