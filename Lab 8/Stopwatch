@@ -1,0 +1,113 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 05/13/2019 09:36:56 PM
+-- Design Name: 
+-- Module Name: labombardj_lab8 - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity labombardj_lab8 is
+    Port ( start, stop, reset, clk : in STD_LOGIC;
+           seg : out STD_LOGIC_VECTOR (6 downto 0);
+           cat : out STD_LOGIC);
+end labombardj_lab8;
+
+architecture Behavioral of labombardj_lab8 is
+
+signal fastClockCount : natural range 0 to 12500000;
+signal digitClockCount : natural range 0 to 500000;
+
+signal slowNumber : std_logic_vector(3 downto 0);
+signal fastNumber : std_logic_vector(3 downto 0);
+signal number : std_logic_vector(3 downto 0);
+signal digit : std_logic;
+
+signal state : std_logic;
+
+component labombardj_ssd is
+    Port ( sw : in std_logic_vector(3 downto 0);
+           seg : out std_logic_vector(6 downto 0));
+end component;
+
+begin
+process (clk, reset, start, stop)
+begin
+    if (rising_edge(clk)) then
+        if (stop = '1') then
+            state <= '0';
+    elsif (start = '1') then
+        state <= '1';
+    elsif (reset = '1') then
+        slowNumber <= "0000";
+        fastNumber <= "0000";
+        fastClockCount <= 0;
+    end if;
+
+if (state = '1') then
+    if (fastClockCount = 12500000) then
+        fastClockCount <= 0;
+        if (fastNumber = 9) then
+            fastNumber <= "0000";
+            if (slowNumber = 9) then
+                slowNumber <= "0000";
+            else
+                slowNumber <= slowNumber+1;
+            end if;
+        else
+            fastNumber <= fastNumber+1;
+        end if;
+    else
+        fastClockCount <= fastClockCount+1;
+    end if;
+end if;
+end if;
+end process;
+
+process (clk)
+begin
+    if ( rising_edge(clk) ) then
+        if (digitClockCount = 500000) then
+            digitClockCount <= 0;
+            if (digit = '1') then
+                digit <= '0';
+                number <= fastNumber;
+            else
+                digit <= '1';
+                number <= slowNumber;
+            end if;
+        else
+            digitClockCount <= digitClockCount+1;
+        end if;
+end if;
+end process;
+
+ssd1: labombardj_ssd port map ( sw => number, seg => seg );
+cat <= digit;
+
+end Behavioral;
