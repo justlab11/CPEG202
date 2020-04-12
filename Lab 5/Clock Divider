@@ -1,0 +1,61 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 04/12/2019 01:17:30 PM
+-- Design Name: 
+-- Module Name: labombardj_clkdiv - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity labombardj_clkdiv is
+    Port ( D, CLK, RST : in STD_LOGIC;
+           Q : out STD_LOGIC);
+end labombardj_clkdiv;
+
+architecture Behavioral of labombardj_clkdiv is
+    
+    component labombardj_dff Port (
+        D, CLK, RST : in STD_LOGIC;
+        Q : out STD_LOGIC);
+    end component;
+    
+signal d_signal : STD_LOGIC_VECTOR(3 downto 0) := "0000";
+signal d_not_signal : STD_LOGIC_VECTOR(3 downto 0) := "1111";
+
+begin
+
+    d_not_signal <= not d_signal;
+    
+    dff_0 : labombardj_dff port map(D => d_not_signal(0), CLK => CLK, RST => RST, Q => d_signal(0));
+    dff_1 : labombardj_dff port map(D => d_not_signal(1), CLK => d_signal(0), RST => RST, Q => d_signal(1));
+    dff_2 : labombardj_dff port map(D => d_not_signal(2), CLK => d_signal(1), RST => RST, Q => d_signal(2));
+    dff_3 : labombardj_dff port map(D => d_not_signal(3), CLK => d_signal(2), RST => RST, Q => d_signal(3));
+
+    Q <= d_signal(3);
+    
+end Behavioral;
+
