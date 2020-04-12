@@ -1,0 +1,79 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 04/15/2019 07:47:21 PM
+-- Design Name: 
+-- Module Name: labombardj_sim - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity labombardj_sim is
+--  Port ( );
+end labombardj_sim;
+
+architecture Behavioral of labombardj_sim is
+    
+    component labombardj_clkdiv Port (
+        D, CLK, RST : in STD_LOGIC;
+        Q : out STD_LOGIC);
+    end component;
+    
+    signal D, CLK, RST, Q : STD_LOGIC;
+    
+begin
+
+    A : labombardj_clkdiv port map(D => D, CLK => CLK, RST => RST, Q => Q);
+
+process begin
+    RST <= '0';
+    wait for 2 ns;
+    RST <= '1';
+    wait for 8 ns;
+    RST <= '0';
+    wait for 2 ns;
+    RST <= '1';
+    wait for 8 ns;
+    RST <= '0';
+    wait for 2 ns;
+    RST <= '1';
+end process;
+
+process begin 
+    CLK <= '0';
+    wait for 5 ns;
+    CLK<= '1';
+    wait for 5 ns;
+end process;
+
+process begin 
+    D <= '0';
+    wait for 5 ns;
+    D <= '1';
+    wait for 5 ns;
+end process;
+
+end Behavioral;
