@@ -1,0 +1,52 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 03/17/2019 03:19:06 PM
+-- Design Name: 
+-- Module Name: labombardj_demux - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity labombardj_demux is
+    Port ( I : in STD_LOGIC;
+           sel0 : in STD_LOGIC;
+           sel1 : in STD_LOGIC;
+           Y0 : out STD_LOGIC;
+           Y1 : out STD_LOGIC;
+           Y2 : out STD_LOGIC;
+           Y3 : out STD_LOGIC);
+end labombardj_demux;
+
+architecture Behavioral of labombardj_demux is
+
+begin
+    Y0 <= not sel0 and not sel1 and I;
+    Y1 <= sel0 and not sel1 and I;
+    Y2 <= not sel0 and sel1 and I;
+    Y3 <= sel0 and sel1 and I;
+
+end Behavioral;
